@@ -1,26 +1,24 @@
 """
-Módulo de Extração (Extract)
-"Responsável por se comunicar com a XIVAPI v2 e baixar dados butos de itens via requisições HTTP."
+Extract Module.
+Responsible for communicating with the XIVAPI v2 and fetching raw item data via HTTP requests.
 """
 
-from typing import Any, Dict, List
+from typing import Any
 import requests
 
 XIVAPI_BASE_URL = "https://v2.xivapi.com/api/sheet/Item"
 
-def fetch_ffxiv_items(limit: int = 50) -> List[Dict[str, Any]]:
+
+def fetch_ffxiv_items(limit: int = 50) -> list[dict[str, Any]]:
     """
-    Busca uma lista de itens do Final Fantasy XIV via XIVAPO v2.
+    Fetches a list of Final Fantasy XIV items via XIVAPI v2.
 
     Args:
-       limit (int): Quantidade de itens a serem buscados por requisição (máximo e padrão sugerido).
+        limit (int): The number of items to fetch per request.
 
     Returns:
-       List[dict[str, Any]]: Lista contendo os itens brutos no formato de dicionário Python.
+        list[dict[str, Any]]: A list containing the raw items as Python dictionaries.
     """
-
-    # 1. Parâmetros da URL (Query Parameters
-    # Equivalente a digitar na barra do navegador: ?limit=50
     params = {
         "limit": limit,
     }
@@ -30,7 +28,7 @@ def fetch_ffxiv_items(limit: int = 50) -> List[Dict[str, Any]]:
         "Accept": "application/json",
     }
 
-    print(f"[EXTRACT] Requisitando {limit} itens de {XIVAPI_BASE_URL}...")
+    print(f"[EXTRACT] Fetching {limit} items from {XIVAPI_BASE_URL}...")
 
     try:
         response = requests.get(
@@ -39,32 +37,32 @@ def fetch_ffxiv_items(limit: int = 50) -> List[Dict[str, Any]]:
             headers=headers,
             timeout=10,
         )
-
+        
         response.raise_for_status()
 
         data = response.json()
-
         rows = data.get("rows", [])
 
-        print(f"[EXTRACT] Sucesso! {len(rows)} itens brutos recebidos.")
+        print(f"[EXTRACT] Success! {len(rows)} raw items received.")
         return rows
+
     except requests.exceptions.Timeout:
-        print("[EXTRACT ERRO] A requisição excedeu o tempo limite (timeout de 10s).")
+        print("[EXTRACT ERROR] The request timed out (10s limit).")
         raise
     except requests.exceptions.HTTPError as http_err:
-        print(f"[EXTRACT ERRO] Erro retornado pela API: {http_err}")
+        print(f"[EXTRACT ERROR] HTTP error returned by the API: {http_err}")
         raise
     except requests.exceptions.RequestException as err:
-        print(f"[EXTRACT ERRO] Falha geral de conexão de rede: {err}")
+        print(f"[EXTRACT ERROR] General network connection failure: {err}")
         raise
 
+
 if __name__ == "__main__":
+    test_items = fetch_ffxiv_items(limit=3)
 
-    itens_de_teste = fetch_ffxiv_items(limit=3)
-
-    if itens_de_teste:
-        print("\nExemplo de primeiro item recebido:")
-
-        primeiro_item = itens_de_teste[0]
-        print(f"ID: {primeiro_item.get('row_id')}")
-        print(f"Campos disponíveis: {list(primeiro_item.get('fields', {}).keys())[:10]}...")
+    if test_items:
+        print("\nExample of the first received item:")
+        
+        first_item = test_items[0]
+        print(f"ID: {first_item.get('row_id')}")
+        print(f"Available fields: {list(first_item.get('fields', {}).keys())[:10]}...")
