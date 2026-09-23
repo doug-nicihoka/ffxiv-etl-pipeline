@@ -10,3 +10,7 @@ data/*.db
 data/*.sqlite
 *.log
 .DS_Store
+
+# IDEs e Editores
+.vscode/
+.idea/
