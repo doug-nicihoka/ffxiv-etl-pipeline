@@ -3,7 +3,7 @@ Extract Module.
 Responsible for communicating with the XIVAPI v2 and fetching raw item data via HTTP requests.
 """
 
-from typing import Any
+from typing import Any  # noqa: I001
 import requests
 
 XIVAPI_BASE_URL = "https://v2.xivapi.com/api/sheet/Item"
@@ -57,7 +57,10 @@ def fetch_ffxiv_items(limit: int = 50) -> list[dict[str, Any]]:
         raise
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Tests extract function by printing first received item.
+    """
     test_items = fetch_ffxiv_items(limit=3)
 
     if test_items:
@@ -66,3 +69,7 @@ if __name__ == "__main__":
         first_item = test_items[0]
         print(f"ID: {first_item.get('row_id')}")
         print(f"Available fields: {list(first_item.get('fields', {}).keys())[:10]}...")
+
+
+if __name__ == "__main__":
+    main()

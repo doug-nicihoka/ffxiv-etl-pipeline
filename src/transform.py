@@ -39,7 +39,10 @@ def clean_ffxiv_items(raw_items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return cleaned_items
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Tests cleaned data functionality by printing first 3 items.
+    """
     from extract import fetch_ffxiv_items
     
     print("[TRANSFORM] Fetching raw data for standalone test...")
@@ -50,3 +53,7 @@ if __name__ == "__main__":
     print("\n[TRANSFORM] Cleaned Output:")
     for item in cleaned_data:
         print(item)
+
+
+if __name__ == "__main__":
+    main()

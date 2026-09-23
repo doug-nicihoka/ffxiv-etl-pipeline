@@ -46,7 +46,10 @@ def save_items_to_sqlite(cleaned_items: list[dict[str, Any]], db_path: str = "da
         print(f"[LOAD] Success! {cursor.rowcount} items saved or updated in the database.")
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Tests SQLite funcion with dummy data.
+    """
     dummy_data = [
         {"id": 1, "name": "Gil", "item_level": 0, "rarity": 1},
         {"id": 2, "name": "Fire Shard", "item_level": 0, "rarity": 1},
@@ -55,3 +58,7 @@ if __name__ == "__main__":
     
     print("[LOAD] Running standalone test...")
     save_items_to_sqlite(dummy_data)
+
+
+if __name__ == "__main__":
+    main()

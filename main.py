@@ -31,10 +31,24 @@ def run_pipeline(limit: int=100) -> None:
     print("\n=== Pipeline Execution Completed ===")
 
 
-if __name__ == "__main__":
+
+def main():
+    """
+    Parses CLI arguments and executes main pipeline.
+    """
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--limit", type=int, default=100,
-                        help="Set the maximum number of items to be fetched from API. Default = 100")
+
+    parser.add_argument(
+        "-l", 
+        "--limit",
+        type=int,
+        default=100,
+        help="Set the maximum number of items to be fetched from API. Default = 100",
+    )
+    
     args = parser.parse_args()
 
     run_pipeline(args.limit)
+
+if __name__ == "__main__":
+    main()
